@@ -14,7 +14,6 @@ import RxCocoa
 class ViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
-
     @IBOutlet weak var tableView: UITableView!
     
     let viewModel = GitHubViewModel()
@@ -26,7 +25,7 @@ class ViewController: UIViewController {
         tableView.register(UINib(nibName: "GitHubTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         self.viewModel.delegate = self
         self.tableView.dataSource = self
-        searchBar.rx.text.orEmpty.debounce(0.3, scheduler: MainScheduler.instance).bindNext { (text:String) in
+        searchBar.rx.text.orEmpty.debounce(0.3, scheduler: MainScheduler.instance).bindNext {[unowned self] (text:String) in
             self.viewModel.sendRxRequest(text: text)
         }.addDisposableTo(disposeBag)
         

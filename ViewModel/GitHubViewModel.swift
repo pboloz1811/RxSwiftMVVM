@@ -27,7 +27,7 @@ class GitHubViewModel {
     func sendRxRequest(text:String){
         if text != "" {
             let provider = RxMoyaProvider<GitHubProvider>()
-            provider.request(.getUsers(text: text)).subscribe { (event) in
+            provider.request(.getUsers(text: text)).subscribe { [unowned self] (event) in
                 switch event {
                 case .next(let response):
                     let json = try? JSONSerialization.jsonObject(with: response.data) as! [String:Any]
